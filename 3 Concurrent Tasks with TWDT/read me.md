@@ -3,8 +3,8 @@ This is a sample code for the Creation and Concurrent Execution of 3 Tasks on th
 
 Please see the sample code.
 
-In this code, I use the API **esp_task_wdt_init(timeout, panic)**.
+In this code, I use the API **esp_task_wdt_reconfigure**.
 
-Then, TWDT's default timeout value is increased to 12 seconds.
+Then, TWDT's default timeout value is increased to 15 seconds.
 
 Also, toggling the "panic" argument deactivates the execution of panic handler which causes system reset.
