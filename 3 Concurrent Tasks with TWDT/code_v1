@@ -2,7 +2,7 @@
 
 void setup() {
  
-  Serial.begin(112500);
+  Serial.begin(115200);
   delay(1000);
  
   xTaskCreatePinnedToCore(
@@ -72,15 +72,25 @@ void vTaskTwo( void * pvParameters)
 }
 
 
+
 void vTaskThree( void * pvParameters)
 {
  volatile int iDummy3 = 0;
 
-  uint32_t uiTimeout = 12; // TWDT timeout in seconds
-  bool bPanic = 1;       // Execute the panic handler or not
-  
-  esp_task_wdt_init(uiTimeout, bPanic);   // Initialize the TWDT from a Task
-                                      // function is included in #include <esp_task_wdt.h>
+
+//Define the configuration struct
+esp_task_wdt_config_t wdt_config = {
+    .timeout_ms = 15000,                           // Timeout duration in milliseconds (e.g., 5 seconds)
+    .idle_core_mask = (1 << portNUM_PROCESSORS) - 1, // Subscribe idle tasks on all available cores
+    .trigger_panic = false                         // Trigger a panic/reset on timeout
+};
+
+
+// Pass the address of the struct to the reconfiguration function
+//esp_task_wdt_reconfigure(&wdt_config);
+
+
+
  for(;;){ 
     for(int i = 0;i<2000000;i++ ){
       for(int j = 0;j<10;j++ ){
@@ -95,6 +105,6 @@ void vTaskThree( void * pvParameters)
 }
 
 // interesting execution behaviours are observed by commenting out vTaskDelay(), e.g. from Task 1
-// In this code, I use the API "esp_task_wdt_init(uiTimeout, bPanic)"
-// Then, TWDT's default timeout value is increased to 12 seconds.
-// Also, toggling the "bPanic" argument deactivates the execution of panic handler which causes system reset.
+// In this code, I use the API "esp_task_wdt_reconfigure"
+// Then, TWDT's default timeout value is increased to 15 seconds.
+// Also, toggling the "trigger_panic" argument deactivates the execution of panic handler which causes system reset.
