@@ -51,14 +51,14 @@ void loop() {}  // Nothing here. All is done inside the Tasks
 
 void vSenderTask(void *pvParameters)
 {
-  int aValue = 0;  
+  int iValue = 0;  
   for (;;)
   {
     for(int i = 0;i<10;i++ ){
-        aValue += 10000;
+        iValue += 10000;
     }
     /* Post an item on a queue. https://www.freertos.org/a00117.html */
-    xQueueSend(integerQueue, &aValue, portMAX_DELAY);
+    xQueueSend(integerQueue, &iValue, portMAX_DELAY);
   }
 }
 
