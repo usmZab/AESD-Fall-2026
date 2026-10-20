@@ -68,13 +68,13 @@ void vSenderTask(void *pvParameters)
  */
 void vConsumerTask(void * pvParameters) {
   
-  int valueFromQueue = 0;
+  int ivalueFromQueue = 0;
 
   for (;;) 
   {
     /*  Read an item from the queue */
-    if (xQueueReceive(integerQueue, &valueFromQueue, portMAX_DELAY) == pdPASS) {
-      Serial.println(valueFromQueue);
+    if (xQueueReceive(integerQueue, &ivalueFromQueue, portMAX_DELAY) == pdPASS) {
+      Serial.println(ivalueFromQueue);
     }
     vTaskDelay(pdMS_TO_TICKS(1000));    /* Delay/Block the Task for exactly X ms */
   }
